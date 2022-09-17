@@ -6,8 +6,18 @@
     "background": {
         "service_worker": "background.js"
     },
-    "permissions": ["storage"],
+    "permissions": ["storage", "scripting", "activeTab"],
     "action": {
         "default_popup": "index.html"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://meet.google.com/*"],
+            "js": ["jquery.min.js"]
+        }
+    ],
+    "content_security_policy": {
+        "script-src": "'self' https://ajax.googleapis.com",
+        "object-src": "'self'"
     }
 }

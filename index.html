@@ -3,27 +3,21 @@
   <head>
     <title>Attendance</title>
     <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-      function getParticipants() {
-	  let participants = [];
-	  var plist = $('div[aria-label="Participants"]');
-	  plist.children('div[role="listitem"]').each(
-	      function (item) => {
-		  var participant = {};
-		  participant.item = item;
-		  participant.name = item.children("span.zWGUib").text();
-		  participant.checked = false
-		  participants.add(participant);
-	      }
-	  );
-	  console.log(participants);
-      }
-    </script>
+    <style>
+        #attendance {
+            min-width: 200px;
+        }
+
+        #attendance li {
+            border: 1px black;
+        }
+    </style>
+    <script src="jquery.min.js"></script>
+    <script src="participants.js"></script>
   </head>
   <body>
+    <button id="get-participants">plist</button>
     <ol id="attendance">
-      
     </ol>
   </body>
 </html>

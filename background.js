@@ -1,6 +1,5 @@
-let color = '#3aa757';
+let participants = [];
 
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.sync.set({ color });
-    console.log("Default background color is: %cgreen", "color: ${color}");
+    chrome.storage.sync.set({ participants });
 });
