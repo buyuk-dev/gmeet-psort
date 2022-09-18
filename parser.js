@@ -10,7 +10,7 @@ function createParticipantFromHtml(html) {
     return {
         html: html.outerHTML,
         name: $(html).find(nameSelector).first().text(),
-        checked: false
+        checked: $(html).hasClass("checked")
     };
 }
 
@@ -19,6 +19,17 @@ function parseCurrentParticipants() {
     return $(listSelector).children(itemSelector).toArray().map(
         (item) => { return createParticipantFromHtml(item); }
     );
+}
+
+
+function installClickListener() {
+    $(listSelector).children(itemSelector).each((_, item) => {
+        $(item).click(function () {
+            $(this).toggleClass("checked");
+            let name = $(this).find(nameSelector).first().text();
+            console.log("clicked on ", name);
+        });
+    })
 }
 
 
@@ -31,8 +42,11 @@ function updateParticipantsView(participants) {
     let list = $(listSelector);
     list.empty();
     $(divs).each((_, item) => {
+        console.log(item);
         list.append(item);
     });
+
+    installClickListener();
 }
 
 
@@ -42,14 +56,7 @@ function updateParticipantsList() {
     chrome.storage.local.get("participants", ({participants}) => {
         let updated = {};
         for (let p of Object.values(current)) {
-            // if participant was present before, just copy it to preserve state
-            if (Object.hasOwn(participants, p.name)) {
-                updated[p.name] = participants[p.name];
-            }
-            // otherwise insert new participant.
-            else {
-                updated[p.name] = p;
-            }
+            updated[p.name] = p;
         }
         chrome.storage.local.set({participants: updated}, () => {
             updateParticipantsView(updated);
@@ -64,7 +71,6 @@ function updateParticipantsList() {
 chrome.storage.local.get("refreshInterval", ({refreshInterval}) => {
     setTimeout(updateParticipantsList, refreshInterval);
 });
-
 
 
 } ); // $(document).ready

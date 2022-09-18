@@ -1,2 +1,2 @@
-1. Add interface to change extension config.
-2. Make is possible to check participants.
+2. Configure sorting order.
+3. 
