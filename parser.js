@@ -27,7 +27,6 @@ function installClickListener() {
         $(item).click(function () {
             $(this).toggleClass("checked");
             let name = $(this).find(nameSelector).first().text();
-            console.log("clicked on ", name);
         });
     })
 }
@@ -42,7 +41,6 @@ function updateParticipantsView(participants) {
     let list = $(listSelector);
     list.empty();
     $(divs).each((_, item) => {
-        console.log(item);
         list.append(item);
     });
 
@@ -52,7 +50,6 @@ function updateParticipantsView(participants) {
 
 function updateParticipantsList() {
     let current = parseCurrentParticipants();
-    console.log(current);
     chrome.storage.local.get("participants", ({participants}) => {
         let updated = {};
         for (let p of Object.values(current)) {
