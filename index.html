@@ -9,15 +9,19 @@
         }
 
         #attendance li {
-            border: 1px black;
+            color: red;
+            border: 2px solid black;
         }
     </style>
     <script src="jquery.min.js"></script>
     <script src="participants.js"></script>
   </head>
   <body>
-    <button id="get-participants">plist</button>
-    <ol id="attendance">
-    </ol>
+    <h1>Options</h1>
+    <div id="options">
+        <input type="number" min="500" default="5000" id="refreshInterval"/>
+    </div>
+    <h1>Participants</h1>
+    <ul id="attendance"></ul>
   </body>
 </html>

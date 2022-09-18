@@ -28,9 +28,19 @@ function updateParticipantsView() {
 }
 
 
+$("#refreshInterval").on("change", function () {
+    let interval = $(this).val();
+    chrome.storage.local.set({refreshInterval: interval}, () => {
+        console.log("Refresh interval set to ", interval);
+    });
+});
+
+
 chrome.storage.local.get("refreshInterval", ({refreshInterval}) => {
     setTimeout(updateParticipantsView, refreshInterval);
 });
+
+
 
 
 } ); // $(document).ready
