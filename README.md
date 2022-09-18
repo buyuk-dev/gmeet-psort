@@ -1,2 +1,2 @@
-# gmeet-psort (work in progress)
-chrome extension for sorting participants in the google meet meeting list.
+# Meet Sorter (work in progress)
+chrome extension for sorting participants list on the Google Meet meeting.
