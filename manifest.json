@@ -1,6 +1,6 @@
 {
-    "name": "Google Meet Participants Sorter",
-    "description": "Sort participants list in a google meet meeting.",
+    "name": "Meet Sorter",
+    "description": "Sort Google Meet participants list.",
     "version": "0.2",
     "manifest_version": 3,
     "background": {
