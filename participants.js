@@ -3,7 +3,11 @@ $(document).ready( () => {
 
 function arrayToHtmlList(array) {
     return array.map((item) => {
-        return $("<li>").append(item);
+        let li = $("<li>");
+        if (item.checked) {
+            li.addClass("checked");
+        }
+        return li.append(item.name);
     });
 }
 
@@ -11,9 +15,7 @@ function arrayToHtmlList(array) {
 function updateParticipantsView() {
     chrome.storage.local.get("participants", ({participants}) => {
         let compare = (a, b) => { return a.name < b.name ? 1 : -1; };
-        let names = arrayToHtmlList(Object.values(participants).sort(compare).map(
-            (item) => { return item.name; }
-        ));
+        let names = arrayToHtmlList(Object.values(participants).sort(compare));
 
         let list = $("#attendance");
         list.empty();
