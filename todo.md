@@ -1,2 +1,1 @@
-2. Configure sorting order.
-3. 
+1. Configure sorting order.
