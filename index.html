@@ -4,14 +4,55 @@
     <title>Attendance</title>
     <meta charset="utf-8">
     <style>
+        /* Layout */
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* Settings */
+
+        #refreshInterval {
+            text-align: center;
+            width: 50px;
+        }
+
+        /* Participants */
+
         #attendance {
+            list-style-type: none;
             min-width: 200px;
         }
 
         #attendance li {
-            color: red;
-            border: 2px solid black;
+            margin: 0;
+            text-align: center;
+            padding: 5px;
         }
+
+        #attendance li:hover {
+            background: lightblue;
+        }
+
+        #attendance li:not(:last-child) {
+            border-bottom: 2px solid grey;
+        }
+
+        #attendance li.checked {
+            text-decoration: line-through;
+        }
+
     </style>
     <script src="jquery.min.js"></script>
     <script src="participants.js"></script>
@@ -19,7 +60,11 @@
   <body>
     <h1>Options</h1>
     <div id="options">
-        <input type="number" min="500" default="5000" id="refreshInterval"/>
+        <label for="refreshInterval">
+            refresh interval
+            <input type="number" min="500" value="5000" step="50" id="refreshInterval"/>
+            <span>ms</span>
+        </label>
     </div>
     <h1>Participants</h1>
     <ul id="attendance"></ul>
