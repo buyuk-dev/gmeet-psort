@@ -6,6 +6,40 @@ const itemSelector = "div[role=listitem]";
 const nameSelector = "span.zWGUib";
 
 
+function createMutationObserver() {
+    let observer = new MutationObserver(function(mutations) {
+        console.debug(mutations);
+        updateParticipantsList();
+    });
+    return observer;
+}
+
+
+let observer = createMutationObserver();
+
+
+function enableObserver() {
+    console.debug("enable observer");
+    let options = {
+        childList: true,
+        subtree: false,
+        attributes: true,
+        attributeFilter: ["class", "role"]
+    };
+    observer.observe($(listSelector).get(0), options);
+
+    options.subtree = true;
+    $(listSelector).children(itemSelector).each((_, item) => {
+        observer.observe(item, options);
+    });
+}
+
+function disableObserver() {
+    console.info("disable observer");
+    observer.disconnect();
+}
+
+
 function createParticipantFromHtml(html) {
     return {
         html: html.outerHTML,
@@ -23,8 +57,10 @@ function parseCurrentParticipants() {
 
 
 function installClickListener() {
+    console.info("installClickListener");
     $(listSelector).children(itemSelector).each((_, item) => {
-        $(item).click(function () {
+        $(item).click(function () {          
+            console.debug("installClickListener");
             $(this).toggleClass("checked");
             let name = $(this).find(nameSelector).first().text();
         });
@@ -49,6 +85,7 @@ function updateParticipantsView(participants) {
 
 
 function updateParticipantsList() {
+    console.info("updateParticipantsList");
     let current = parseCurrentParticipants();
     chrome.storage.local.get("participants", ({participants}) => {
         let updated = {};
@@ -56,17 +93,32 @@ function updateParticipantsList() {
             updated[p.name] = p;
         }
         chrome.storage.local.set({participants: updated}, () => {
+
+            disableObserver();
             updateParticipantsView(updated);
-            chrome.storage.local.get("refreshInterval", ({refreshInterval}) => {
-                setTimeout(updateParticipantsList, refreshInterval);
-            });
+            enableObserver();
         });
     });
 }
 
 
-chrome.storage.local.get("refreshInterval", ({refreshInterval}) => {
-    setTimeout(updateParticipantsList, refreshInterval);
+function waitUntilMeetingJoined(onMeetingJoined) {
+    let list = $(listSelector);
+    if (list.length > 0) {
+        console.log("meeting joined...");
+        onMeetingJoined();
+        return;
+    }
+    else {
+        console.log("waiting to join...")
+        setTimeout(() => {waitUntilMeetingJoined(onMeetingJoined);}, 1000);
+    }
+}
+
+
+waitUntilMeetingJoined(function () {
+    enableObserver();
+    updateParticipantsList();
 });
 
 
