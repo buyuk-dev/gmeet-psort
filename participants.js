@@ -14,7 +14,7 @@ function arrayToHtmlList(array) {
 
 function updateParticipantsView() {
     chrome.storage.local.get("participants", ({participants}) => {
-        let compare = (a, b) => { return a.name < b.name ? 1 : -1; };
+        let compare = (a, b) => { return a.name < b.name ? -1 : 1; };
         let names = arrayToHtmlList(Object.values(participants).sort(compare));
 
         let list = $("#attendance");
